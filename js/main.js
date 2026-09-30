@@ -5,13 +5,19 @@ document.addEventListener('DOMContentLoaded', function () {
   var footerSlot = document.getElementById('footer-placeholder');
 
   var headerLoaded = headerSlot
-    ? fetch('/partials/header.html').then(function (r) { return r.text(); }).then(function (html) {
+    ? fetch('/partials/header.html').then(function (r) {
+        if (!r.ok) throw new Error('header partial not found: ' + r.status);
+        return r.text();
+      }).then(function (html) {
         headerSlot.outerHTML = html;
       })
     : Promise.resolve();
 
   var footerLoaded = footerSlot
-    ? fetch('/partials/footer.html').then(function (r) { return r.text(); }).then(function (html) {
+    ? fetch('/partials/footer.html').then(function (r) {
+        if (!r.ok) throw new Error('footer partial not found: ' + r.status);
+        return r.text();
+      }).then(function (html) {
         footerSlot.outerHTML = html;
       })
     : Promise.resolve();
