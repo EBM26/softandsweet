@@ -4,23 +4,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var headerSlot = document.getElementById('header-placeholder');
   var footerSlot = document.getElementById('footer-placeholder');
 
-  var headerLoaded = headerSlot
-    ? fetch('/partials/header.html').then(function (r) {
-        if (!r.ok) throw new Error('header partial not found: ' + r.status);
-        return r.text();
-      }).then(function (html) {
-        headerSlot.outerHTML = html;
-      })
-    : Promise.resolve();
+  var scriptTag = document.querySelector('script[src$="js/main.js"]');
+  var base = scriptTag ? scriptTag.getAttribute('src').replace(/js\/main\.js$/, '') : '';
 
-  var footerLoaded = footerSlot
-    ? fetch('/partials/footer.html').then(function (r) {
-        if (!r.ok) throw new Error('footer partial not found: ' + r.status);
-        return r.text();
-      }).then(function (html) {
-        footerSlot.outerHTML = html;
-      })
-    : Promise.resolve();
+  function loadPartial(slot, name) {
+    if (!slot) return Promise.resolve();
+    return fetch(base + 'partials/' + name).then(function (r) {
+      if (!r.ok) throw new Error(name + ' partial not found: ' + r.status);
+      return r.text();
+    }).then(function (html) {
+      slot.outerHTML = html.replace(/(src|href)="(css|images|js|webfonts)\//g, '$1="' + base + '$2/');
+    });
+  }
+
+  var headerLoaded = loadPartial(headerSlot, 'header.html');
+  var footerLoaded = loadPartial(footerSlot, 'footer.html');
 
   Promise.all([headerLoaded, footerLoaded]).then(function () {
     initHeaderNav();
