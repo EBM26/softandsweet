@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ---------- Load global header & footer partials ---------- */
+  /* ---------- Load global header, footer, contact & insta partials ---------- */
   var headerSlot = document.getElementById('header-placeholder');
   var footerSlot = document.getElementById('footer-placeholder');
+  var contactSlot = document.getElementById('contact-placeholder');
+  var instaSlot = document.getElementById('insta-placeholder');
 
   var scriptTag = document.querySelector('script[src$="js/main.js"]');
   var base = scriptTag ? scriptTag.getAttribute('src').replace(/js\/main\.js$/, '') : '';
@@ -19,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var headerLoaded = loadPartial(headerSlot, 'header.html');
   var footerLoaded = loadPartial(footerSlot, 'footer.html');
+  var contactLoaded = loadPartial(contactSlot, 'contact.html');
+  var instaLoaded = loadPartial(instaSlot, 'insta.html');
 
   Promise.all([headerLoaded, footerLoaded]).then(function () {
     initHeaderNav();
@@ -26,6 +30,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initFooterYear();
   }).catch(function (err) {
     console.error('Failed to load site header/footer partials:', err);
+  });
+
+  Promise.all([contactLoaded, instaLoaded]).catch(function (err) {
+    console.error('Failed to load contact/insta partials:', err);
   });
 
   /* ---------- Menu tabs ---------- */
