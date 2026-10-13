@@ -455,7 +455,7 @@ section { padding: var(--section-pad) 0; }
    Footer (matches original site footer structure/styling)
    ========================================================================== */
 .footer-main { background: var(--cream); position: relative; z-index: 3; }
-.ftr-top { padding: 60px 0 30px; background: url(/images/footer-bg-leaf.svg) no-repeat right 60px; background-size: 130px; }
+.ftr-top { padding: 60px 0 30px; background: url(../images/footer-bg-leaf.svg) no-repeat right 60px; background-size: 130px; }
 .ftr-top-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
 .ftr-logo img { max-width: 260px; width: 100%; height: auto; }
 .ftr-rt { max-width: 640px; }
